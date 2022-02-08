@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/karunialeo/karunialeo_waysbucks_api#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.16.0",
+    "sequelize-cli": "^6.4.1"
   }
 }
