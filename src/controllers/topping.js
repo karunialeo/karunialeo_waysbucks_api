@@ -2,6 +2,22 @@ const { tb_topping, tb_user} = require('../../models')
 
 exports.addTopping = async (req, res) => {
     try {
+        const toppingExist = await tb_topping.findOne({
+            where: {
+              title: req.body.title,
+            },
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+        });
+      
+        if (toppingExist) {
+            return res.status(400).send({
+                status: "Failed",
+                message: "Topping already registered",
+            })
+        }
+
         const { data } = req.body;
         // code here
         let newTopping = await tb_topping.create({

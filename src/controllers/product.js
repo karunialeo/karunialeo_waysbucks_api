@@ -2,6 +2,22 @@ const { tb_product, tb_user} = require('../../models')
 
 exports.addProduct = async (req, res) => {
     try {
+        const productExist = await tb_product.findOne({
+            where: {
+              title: req.body.title,
+            },
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+        });
+      
+        if (productExist) {
+            return res.status(400).send({
+                status: "Failed",
+                message: "Product already registered",
+            })
+        }
+        
         const { data } = req.body;
         // code here
         let newProduct = await tb_product.create({
