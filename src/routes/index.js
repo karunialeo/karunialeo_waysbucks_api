@@ -6,7 +6,7 @@ const { auth } = require('../middlewares/auth')
 const { uploadFile } = require('../middlewares/uploadFile')
 
 const { addUsers, getUsers, getUser, updateUser, deleteUser } = require('../controllers/user')
-const { register, login } = require('../controllers/auth')
+const { register, login, checkAuth } = require('../controllers/auth')
 const { addProduct, getProducts, getProduct, updateProduct, deleteProduct } = require('../controllers/product')
 const { addTopping, getToppings, getTopping, updateTopping, deleteTopping } = require('../controllers/topping')
 
@@ -19,6 +19,7 @@ router.delete('/user/:id', deleteUser)
 
 router.post('/register', register)
 router.post('/login', login)
+router.get("/check-auth", auth, checkAuth);
 
 router.post('/product', auth, uploadFile('image'), addProduct)
 router.get('/products', getProducts)

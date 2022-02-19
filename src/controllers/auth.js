@@ -9,7 +9,7 @@ exports.register = async (req, res) => {
   const schema = Joi.object({
     fullname: Joi.string().min(3).required(),
     email: Joi.string().email().min(6).required(),
-    password: Joi.string().min(4).required(),
+    password: Joi.string().min(4).required()
   });
 
   // do validation and get error object from schema.validate
@@ -49,6 +49,7 @@ exports.register = async (req, res) => {
       fullname: req.body.fullname,
       email: req.body.email,
       password: hashedPassword,
+      status: 'customer'
     });
 
     const token = jwt.sign({ id: tb_user.id }, process.env.ACCESS_TOKEN);
@@ -122,6 +123,7 @@ exports.login = async (req, res) => {
       const user = ({
         fullname: userExist.fullname,
         email: userExist.email,
+        status: userExist.status,
         token
       })
   
@@ -137,4 +139,43 @@ exports.login = async (req, res) => {
         message: "Server Error",
       });
     }
+};
+
+exports.checkAuth = async (req, res) => {
+  try {
+    const id = req.tb_user.id;
+
+    const dataUser = await tb_user.findOne({
+      where: {
+        id,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "password"],
+      },
+    });
+
+    if (!dataUser) {
+      return res.status(404).send({
+        status: "failed",
+      });
+    }
+
+    res.send({
+      status: "Success...",
+      data: {
+        user: {
+          id: dataUser.id,
+          name: dataUser.name,
+          email: dataUser.email,
+          status: dataUser.status,
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
 };
