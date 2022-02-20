@@ -4,6 +4,7 @@ const router = express.Router()
 
 const { auth } = require('../middlewares/auth')
 const { uploadFile } = require('../middlewares/uploadFile')
+const { replaceFile } = require('../middlewares/replaceFile')
 
 const { addUsers, getUsers, getUser, updateUser, deleteUser } = require('../controllers/user')
 const { register, login, checkAuth } = require('../controllers/auth')
@@ -24,7 +25,7 @@ router.get("/check-auth", auth, checkAuth);
 router.post('/product', auth, uploadFile('image'), addProduct)
 router.get('/products', getProducts)
 router.get('/product/:id', getProduct)
-router.patch('/product/:id', auth, updateProduct)
+router.patch('/product/:id', auth, replaceFile('image'), updateProduct)
 router.delete('/product/:id', auth, deleteProduct)
 
 router.post('/topping', auth, uploadFile('image'), addTopping)

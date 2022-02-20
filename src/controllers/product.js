@@ -37,7 +37,7 @@ exports.addProduct = async (req, res) => {
             
         // code here
         res.send({
-            status: 'Success',
+            status: 'Success...',
             data: {
                 newProduct,
             }
@@ -46,7 +46,7 @@ exports.addProduct = async (req, res) => {
 
     } catch (error) {
         res.status(500).send({
-            status: "failed",
+            status: "Failed",
             message: "Server Error",
         });
     }   
@@ -115,10 +115,8 @@ exports.getProduct = async (req, res) => {
     
         data = JSON.parse(JSON.stringify(data))
     
-        // data[id].image = process.env.FILE_PATH + tb_product[id].image
-    
         res.send({
-            status: "Success",
+            status: "Success...",
             message: `Showing Product with id: ${id}`,
             data: {
                 product: data
@@ -136,17 +134,28 @@ exports.getProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        await tb_product.update(req.body, {
+        const {data} = req.body;
+        
+        let product = {
+            ...data,
+            title: req.body.title,
+            price: req.body.price,
+            image: req.file.filename,
+        }
+        
+        let updatedProduct = await tb_product.update(product, {
             where: {
                 id
             },
         });
+
+        updatedProduct = JSON.parse(JSON.stringify(updatedProduct))
     
         res.send({
-            status: 'Success',
+            status: 'Success...',
             message: `Product id: ${id} Updated`,
             data: {
-                product: id
+                product: updatedProduct
             }
         });
         } catch (error) {
@@ -168,7 +177,7 @@ exports.deleteProduct = async (req, res) => {
         });
     
         res.send({
-            status: 'Success',
+            status: 'Success...',
             message: `Deleted Product id: ${id}`,
             data: {
                 id

@@ -37,7 +37,7 @@ exports.addTopping = async (req, res) => {
             
         // code here
         res.send({
-            status: 'Success',
+            status: 'Success...',
             data: {
                 newTopping,
             }
@@ -118,7 +118,7 @@ exports.getTopping = async (req, res) => {
         // data[id].image = process.env.FILE_PATH + tb_product[id].image
     
         res.send({
-            status: "Success",
+            status: "Success...",
             message: `Showing Topping with id: ${id}`,
             data: {
                 topping: data
@@ -143,7 +143,7 @@ exports.updateTopping = async (req, res) => {
         });
     
         res.send({
-            status: 'Success',
+            status: 'Success...',
             message: `Topping id: ${id} Updated`,
             data: {
                 topping: id
@@ -168,7 +168,7 @@ exports.deleteTopping = async (req, res) => {
         });
     
         res.send({
-            status: 'Success',
+            status: 'Success...',
             message: `Deleted Topping id: ${id}`,
             data: {
                 id
