@@ -118,9 +118,10 @@ exports.login = async (req, res) => {
         });
       }
 
-      const token = jwt.sign({ id: userExist.id }, process.env.ACCESS_TOKEN);
+      const token = jwt.sign({ id: userExist.id }, process.env.ACCESS_TOKEN, { expiresIn: '1h' });
 
       const user = ({
+        id: userExist.id,
         fullname: userExist.fullname,
         email: userExist.email,
         status: userExist.status,
@@ -165,7 +166,7 @@ exports.checkAuth = async (req, res) => {
       data: {
         user: {
           id: dataUser.id,
-          name: dataUser.name,
+          fullname: dataUser.fullname,
           email: dataUser.email,
           status: dataUser.status,
         },
