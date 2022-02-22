@@ -10,6 +10,7 @@ const { addUsers, getUsers, getUser, updateUser, deleteUser } = require('../cont
 const { register, login, checkAuth } = require('../controllers/auth')
 const { addProduct, getProducts, getProduct, updateProduct, deleteProduct } = require('../controllers/product')
 const { addTopping, getToppings, getTopping, updateTopping, deleteTopping } = require('../controllers/topping')
+const { addOrder, getOrders } = require('../controllers/order')
 
 
 router.post('/user', addUsers)
@@ -33,5 +34,8 @@ router.get('/toppings', getToppings)
 router.get('/topping/:id', getTopping)
 router.patch('/topping/:id', auth, updateTopping)
 router.delete('/topping/:id', auth, deleteTopping)
+
+router.post('/order', auth, addOrder)
+router.get('/orders/:id', getOrders)
 
 module.exports = router

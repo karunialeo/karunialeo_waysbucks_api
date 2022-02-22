@@ -27,13 +27,6 @@ exports.addProduct = async (req, res) => {
             image: req.file.filename,
             idUser: req.tb_user.id
         })
-
-        newProduct = JSON.parse(JSON.stringify(newProduct))
-
-        newProduct = {
-            ...newProduct,
-            image: process.env.FILE_PATH + newProduct.image,
-        }
             
         // code here
         res.send({
@@ -42,8 +35,6 @@ exports.addProduct = async (req, res) => {
                 newProduct,
             }
         })
-
-
     } catch (error) {
         res.status(500).send({
             status: "Failed",
@@ -122,13 +113,13 @@ exports.getProduct = async (req, res) => {
                 product: data
             }
         });
-        } catch (error) {
-            console.log(error);
-            res.send({
-            status: "Failed",
-            message: "Server Error",
-            });
-        }
+    } catch (error) {
+        console.log(error);
+        res.send({
+        status: "Failed",
+        message: "Server Error",
+        });
+    }
 };
 
 exports.updateProduct = async (req, res) => {
@@ -158,13 +149,13 @@ exports.updateProduct = async (req, res) => {
                 product: updatedProduct
             }
         });
-        } catch (error) {
-            console.log(error);
-            res.send({
-            status: "Failed",
-            message: "Server Error",
-            });
-        }
+    } catch (error) {
+        console.log(error);
+        res.send({
+        status: "Failed",
+        message: "Server Error",
+        });
+    }
 };
 
 exports.deleteProduct = async (req, res) => {
@@ -183,10 +174,10 @@ exports.deleteProduct = async (req, res) => {
                 id
             }
         });
-        } catch (error) {
-            res.send({
-            status: "Failed",
-            message: "Server Error",
-            });
-        }
+    } catch (error) {
+        res.send({
+        status: "Failed",
+        message: "Server Error",
+        });
+    }
 };
