@@ -17,6 +17,13 @@ module.exports = (sequelize, DataTypes) => {
           name: "idUser",
         },
       });
+
+      tb_topping.hasMany(models.tb_order, {
+        as: "order",
+        foreignKey: {
+          name: "idTopping",
+        },
+      });
     }
   }
   tb_topping.init({

@@ -24,14 +24,21 @@ module.exports = (sequelize, DataTypes) => {
           name: "idProduct",
         },
       });
+      
+      tb_order.belongsTo(models.tb_topping, {
+        as: "topping",
+        foreignKey: {
+          name: "idTopping",
+        },
+      });
     }
   }
   tb_order.init({
     idUser: DataTypes.INTEGER,
     idProduct: DataTypes.INTEGER,
+    idTopping: DataTypes.INTEGER,
     qty: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    toppings: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'tb_order',

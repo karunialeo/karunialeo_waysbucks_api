@@ -26,14 +26,20 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      idTopping: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "tb_toppings",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
       qty: {
         type: Sequelize.INTEGER
       },
       price: {
         type: Sequelize.INTEGER
-      },
-      toppings: {
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

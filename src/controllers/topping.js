@@ -1,4 +1,5 @@
 const { tb_topping, tb_user} = require('../../models')
+const fs = require('fs');
 
 exports.addTopping = async (req, res) => {
     try {
@@ -161,6 +162,22 @@ exports.updateTopping = async (req, res) => {
 exports.deleteTopping = async (req, res) => {
     try { 
         const { id } = req.params;
+
+        const topping = await tb_topping.findOne({
+            where: {
+              id
+            },
+            attributes: ["image"],
+        });
+
+        let imageFile = 'uploads/' + topping.image
+
+        // Delete image file
+        fs.unlink(imageFile, (err => {
+            if (err) console.log(err);
+            else console.log("\nDeleted file: " + imageFile);
+        }));
+
         await tb_topping.destroy({
             where: {
                 id

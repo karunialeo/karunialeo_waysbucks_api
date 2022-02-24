@@ -1,4 +1,5 @@
 const { tb_product, tb_user} = require('../../models')
+const fs = require('fs');
 
 exports.addProduct = async (req, res) => {
     try {
@@ -161,12 +162,28 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     try { 
         const { id } = req.params;
+
+        const product = await tb_product.findOne({
+            where: {
+              id
+            },
+            attributes: ["image"],
+        });
+
+        let imageFile = 'uploads/' + product.image
+
+        // Delete image file
+        fs.unlink(imageFile, (err => {
+            if (err) console.log(err);
+            else console.log("\nDeleted file: " + imageFile);
+        }));
+
         await tb_product.destroy({
             where: {
                 id
             },
         });
-    
+
         res.send({
             status: 'Success...',
             message: `Deleted Product id: ${id}`,

@@ -93,14 +93,14 @@ exports.updateUser = async (req, res) => {
     });
 
     res.send({
-      status: "success",
-      message: `Update user id: ${id} finished`,
+      status: "Success...",
+      message: `Update user ID: ${id} finished`,
       data: req.body,
     });
   } catch (error) {
     console.log(error);
     res.send({
-      status: "failed",
+      status: "Failed",
       message: "Server Error",
     });
   }
