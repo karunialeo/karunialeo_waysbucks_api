@@ -2,7 +2,7 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { tb_user } = require("../../models");
+const { tb_user, tb_profile } = require("../../models");
 
 exports.register = async (req, res) => {
   // our validation schema here
@@ -51,6 +51,14 @@ exports.register = async (req, res) => {
       password: hashedPassword,
       status: 'customer'
     });
+
+    const newProfile = await tb_profile.create({
+      phone: null,
+      gender: null,
+      address: null,
+      idUser: newUser.id,
+      image: 'default-user.png',
+    })
 
     const token = jwt.sign({ id: tb_user.id }, process.env.ACCESS_TOKEN);
 
