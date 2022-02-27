@@ -59,7 +59,7 @@ exports.getUser = async (req, res) => {
           model: tb_profile,
           as: "profile",
           attributes: {
-            exclude: ["createdAt", "updatedAt", "idUser"],
+            exclude: ["id", "createdAt", "updatedAt"],
           },
         },
         attributes: {
@@ -89,6 +89,12 @@ exports.updateUser = async (req, res) => {
     await tb_user.update(req.body, {
       where: {
         id,
+      },
+    });
+
+    await tb_profile.update(req.body, {
+      where: {
+        idUser: id,
       },
     });
 

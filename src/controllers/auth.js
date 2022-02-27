@@ -2,7 +2,7 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { tb_user, tb_profile } = require("../../models");
+const { tb_user, tb_profile, tb_order, tb_product, tb_topping } = require("../../models");
 
 exports.register = async (req, res) => {
   // our validation schema here
@@ -126,6 +126,37 @@ exports.login = async (req, res) => {
         });
       }
 
+      const profile = await tb_profile.findOne({
+        where: {
+          idUser: userExist.id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+      })
+      
+      const order = await tb_order.findAll({
+        where: {
+          idUser: userExist.id,
+        },
+        include: [
+          {
+            model: tb_product,
+            as: "product",
+            attributes: {
+              exclude: ["idUser", "createdAt", "updatedAt"],
+            },
+          },
+          {
+            model: tb_topping,
+            as: "topping",
+            attributes: {
+              exclude: ["idUser", "createdAt", "updatedAt"],
+            },
+          },
+        ],
+      })
+
       const token = jwt.sign({ id: userExist.id }, process.env.ACCESS_TOKEN, { expiresIn: '1h' });
 
       const user = ({
@@ -133,6 +164,8 @@ exports.login = async (req, res) => {
         fullname: userExist.fullname,
         email: userExist.email,
         status: userExist.status,
+        profile,
+        order,
         token
       })
   
@@ -163,6 +196,37 @@ exports.checkAuth = async (req, res) => {
       },
     });
 
+    const profile = await tb_profile.findOne({
+      where: {
+        idUser: id,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+    })
+
+    const order = await tb_order.findAll({
+      where: {
+        idUser: id,
+      },
+      include: [
+        {
+          model: tb_product,
+          as: "product",
+          attributes: {
+            exclude: ["idUser", "createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: tb_topping,
+          as: "topping",
+          attributes: {
+            exclude: ["idUser", "createdAt", "updatedAt"],
+          },
+        },
+      ],
+    })
+
     if (!dataUser) {
       return res.status(404).send({
         status: "failed",
@@ -177,6 +241,8 @@ exports.checkAuth = async (req, res) => {
           fullname: dataUser.fullname,
           email: dataUser.email,
           status: dataUser.status,
+          profile,
+          order,
         },
       },
     });

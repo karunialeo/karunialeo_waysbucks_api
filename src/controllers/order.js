@@ -24,6 +24,7 @@ exports.addOrder = async (req, res) => {
             idTopping: req.body.idTopping,
             qty: req.body.qty,
             price: req.body.qty * (product.price + topping.price),
+            status: 'active',
         })
 
         // code here
@@ -48,7 +49,8 @@ exports.getOrders = async (req, res) => {
         const { id } = req.params;
         let data = await tb_order.findAll({
             where: {
-                idUser: id
+                idUser: id,
+                status: 'active',
             },
             include: [
               {
