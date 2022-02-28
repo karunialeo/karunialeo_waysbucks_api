@@ -82,6 +82,82 @@ exports.getOrders = async (req, res) => {
     }
 };
 
+exports.getProcessOrders = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let data = await tb_order.findAll({
+            where: {
+                idUser: id,
+                status: 'process',
+            },
+            include: [
+              {
+                model: tb_product,
+                as: "product",
+                attributes: {
+                  exclude: ["idUser", "createdAt", "updatedAt"],
+                },
+              },
+              {
+                model: tb_topping,
+                as: "topping",
+                attributes: {
+                  exclude: ["idUser", "createdAt", "updatedAt"],
+                },
+              },
+            ],
+        });
+    
+        res.send({
+            status: "Success on Getting On Process Orders By User ID",
+            orders: data
+        });
+    } catch (error) {
+        res.send({
+        status: "Failed",
+        message: "Server Error",
+        });
+    }
+};
+
+exports.getSuccessOrders = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let data = await tb_order.findAll({
+            where: {
+                idUser: id,
+                status: 'success',
+            },
+            include: [
+              {
+                model: tb_product,
+                as: "product",
+                attributes: {
+                  exclude: ["idUser", "createdAt", "updatedAt"],
+                },
+              },
+              {
+                model: tb_topping,
+                as: "topping",
+                attributes: {
+                  exclude: ["idUser", "createdAt", "updatedAt"],
+                },
+              },
+            ],
+        });
+    
+        res.send({
+            status: "Success on Getting Successful Orders By User ID",
+            orders: data
+        });
+    } catch (error) {
+        res.send({
+        status: "Failed",
+        message: "Server Error",
+        });
+    }
+};
+
 exports.updateOrder = async (req, res) => {
     try {
         const { id } = req.params;

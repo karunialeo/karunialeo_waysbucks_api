@@ -10,7 +10,8 @@ const { addUsers, getUsers, getUser, updateUser, deleteUser } = require('../cont
 const { register, login, checkAuth } = require('../controllers/auth')
 const { addProduct, getProducts, getProduct, updateProduct, deleteProduct } = require('../controllers/product')
 const { addTopping, getToppings, getTopping, updateTopping, deleteTopping } = require('../controllers/topping')
-const { addOrder, getOrders, updateOrder, deleteOrder } = require('../controllers/order')
+const { addOrder, getOrders, updateOrder, deleteOrder, getProcessOrders, getSuccessOrders } = require('../controllers/order')
+const { addTransaction, getTransactions, getTransaction, updateTransaction, cancelTransaction, finishTransaction } = require('../controllers/transaction')
 
 
 router.post('/user', addUsers)
@@ -37,7 +38,16 @@ router.delete('/topping/:id', auth, deleteTopping)
 
 router.post('/order', auth, addOrder)
 router.get('/orders/:id', getOrders)
+router.get('/orders/process/:id', getProcessOrders)
+router.get('/orders/success/:id', getSuccessOrders)
 router.patch('/order/:id', auth, updateOrder)
 router.delete('/order/:id', auth, deleteOrder)
+
+router.post('/transaction', auth, uploadFile('attachment'), addTransaction)
+router.get('/transactions', getTransactions)
+router.get('/transaction/:id', getTransaction)
+router.patch('/transaction/:id', updateTransaction)
+router.patch('/transaction/cancel/:id', cancelTransaction)
+router.patch('/transaction/success/:id', finishTransaction)
 
 module.exports = router

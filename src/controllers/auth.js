@@ -138,6 +138,7 @@ exports.login = async (req, res) => {
       const order = await tb_order.findAll({
         where: {
           idUser: userExist.id,
+          status: 'active',
         },
         include: [
           {
@@ -208,6 +209,7 @@ exports.checkAuth = async (req, res) => {
     const order = await tb_order.findAll({
       where: {
         idUser: id,
+        status: 'active',
       },
       include: [
         {
