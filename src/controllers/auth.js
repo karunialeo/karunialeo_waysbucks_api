@@ -238,7 +238,8 @@ exports.checkAuth = async (req, res) => {
 
     if (!dataUser) {
       return res.status(404).send({
-        status: "failed",
+        status: "Failed",
+        message: "User not Found",
       });
     }
 
