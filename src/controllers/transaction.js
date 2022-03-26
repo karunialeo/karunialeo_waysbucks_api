@@ -1,4 +1,5 @@
 const { tb_user, tb_transaction, tb_order } = require("../../models");
+const cloudinary = require("../utils/cloudinary");
 
 exports.addTransaction = async (req, res) => {
   try {
