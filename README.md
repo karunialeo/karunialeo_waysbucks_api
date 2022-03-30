@@ -2,6 +2,10 @@
 
 You may visit this project by visiting (https://karunialeo-waysbucks.netlify.app/).
 
+## Front End Repository
+
+Clone Front End repository from here (https://github.com/karunialeo/karunialeo_waysbucks).
+
 ## Available Scripts
 
 In the project directory, you can run:
